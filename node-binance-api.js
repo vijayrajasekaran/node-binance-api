@@ -375,6 +375,10 @@ let api = function Binance( options = {} ) {
                 opt.timeInForce = 'GTC';
             }
         }
+        if (opt.type == 'MARKET' && typeof flags.quoteOrderQty !== 'undefined') {
+            opt.quoteOrderQty = flags.quoteOrderQty
+            delete opt.quantity;
+        }
         if ( opt.type === 'OCO' ) {
             opt.price = price;
             opt.stopLimitPrice = flags.stopLimitPrice;
@@ -440,6 +444,10 @@ let api = function Binance( options = {} ) {
             if ( opt.type !== 'LIMIT_MAKER' ) {
                 opt.timeInForce = 'GTC';
             }
+        }
+        if (opt.type == 'MARKET' && typeof flags.quoteOrderQty !== 'undefined') {
+            opt.quoteOrderQty = flags.quoteOrderQty
+            delete opt.quantity;
         }
 
         if ( typeof flags.timeInForce !== 'undefined' ) opt.timeInForce = flags.timeInForce;
@@ -4434,7 +4442,7 @@ let api = function Binance( options = {} ) {
          * @param {string} isIsolated - the isolate margin option
          * @return {undefined}
          */
-        mgMarketBuy: function ( symbol, quantity, flags = { type: 'MARKET' }, callback = false,isIsolated='FALSE' ) {
+        mgMarketBuy: function ( symbol, quantity, flags = { type: 'MARKET' }, callback = false,isIsolated='TRUE' ) {
             if ( typeof flags === 'function' ) { // Accept callback as third parameter
                 callback = flags;
                 flags = { type: 'MARKET' };
@@ -4452,7 +4460,7 @@ let api = function Binance( options = {} ) {
          * @param {string} isIsolated - the isolate margin option
          * @return {undefined}
          */
-        mgMarketSell: function ( symbol, quantity, flags = { type: 'MARKET' }, callback = false, isIsolated='FALSE'  ) {
+        mgMarketSell: function ( symbol, quantity, flags = { type: 'MARKET' }, callback = false, isIsolated='TRUE'  ) {
             if ( typeof flags === 'function' ) { // Accept callback as third parameter
                 callback = flags;
                 flags = { type: 'MARKET' };
